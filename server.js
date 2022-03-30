@@ -119,6 +119,22 @@ const RootMutationType = new GraphQLObjectType({
         console.log(books) // to check if book is added
         return book
       }
+    },
+    addAuthor: {
+      type: AuthorType,
+      description: 'Add an Author',
+      args: {
+        name: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve: (parent, args) => {
+        const author = {
+          id: authors.length + 1,
+          name: args.name
+        }
+        authors.push(author)
+        console.log(authors) // to check if author is added
+        return author
+      }
     }
   })
 
