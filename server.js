@@ -21,6 +21,7 @@ const books = [
   { id: 8, name: 'Beyond the Shadows', authorId: 3 }
 ]
 
+/* first test */
 /* const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: "Hello_World",
@@ -33,13 +34,28 @@ const books = [
   })
 })
  */
+const AuthorType = new GraphQLObjectType({
+  name: 'Author',
+  description: 'This represent a author of a book',
+  fields: () => ({
+    id: { type: new GraphQLNonNull(GraphQLInt) },
+    name: { type: new GraphQLNonNull(GraphQLString) }
+  })
+})
+
 const BookType = new GraphQLObjectType({
   name: 'Book',
   description: 'This represent a book written by an author',
   fields: () => ({
     id: { type: new GraphQLNonNull(GraphQLInt) },
     name: { type: new GraphQLNonNull(GraphQLString) },
-    authorId: { type: new GraphQLNonNull(GraphQLString) }
+    authorId: { type: new GraphQLNonNull(GraphQLString) },
+    author: {
+      type: AuthorType,
+      resolve: (book) => {
+        return authors.find(author => author.id === book.id)
+      }
+    }
   })
 })
 
